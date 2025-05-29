@@ -27,7 +27,7 @@ end_date = st.date_input(
     "End Date", min_value=min_date, max_value=max_date, value=max_date
 )
 
-# Define the two index trackers using table PIDs
+# Define index trackers with table PIDs
 ippi_tracker = IndexTracker(
     index_name="IPPI",
     pid="1810026501",

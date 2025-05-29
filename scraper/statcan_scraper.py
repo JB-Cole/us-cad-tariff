@@ -22,16 +22,22 @@ def grab_table_from_page(url: str) -> pd.DataFrame:
     if not thead:
         raise ValueError("No <thead> found in the table!")
     header_rows = thead.find_all('tr')
-    # Use second row if available, else first row
-    header_row = header_rows[1] if len(header_rows) > 1 else header_rows[0]
-    raw_headers = [th.get_text(strip=True) for th in header_row.find_all('th')]
+    if header_rows:
+        # Use second row if available, else first
+        header_row = header_rows[1] if len(header_rows) > 1 else header_rows[0]
+        raw_headers = [th.get_text(strip=True) for th in header_row.find_all('th')]
+    else:
+        # Fallback: all <th> in thead
+        raw_headers = [th.get_text(strip=True) for th in thead.find_all('th')]
 
     # Keep only month-year strings
     months = [
         'January','February','March','April','May','June',
         'July','August','September','October','November','December'
     ]
-    date_headers = [h for h in raw_headers if h.split(' ')[0] in months]
+    date_headers = [h for h in raw_headers if h and h.split(' ')[0] in months]
+    if not date_headers:
+        raise ValueError("No date columns found in headers!")
     headers = ['Product'] + date_headers
 
     # Extract table body rows

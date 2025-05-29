@@ -1,12 +1,15 @@
 import streamlit as st
-from scraper.statcan_scraper import IndexTracker
 import pandas as pd
+from scraper.statcan_scraper import IndexTracker
 from streamlit_echarts import st_echarts
 
-st.set_page_config(page_title="IPPI vs RMPI Trends", layout="wide")
+st.set_page_config(page_title="IPPI vs RMPI Trends (CSV-Based)", layout="wide")
 
-st.title("📊 IPPI vs RMPI Trends (CSV-Based)")
-st.markdown("Analyze the monthly changes in Industrial Product Price Index (IPPI) and Raw Material Price Index (RMPI) using direct CSV downloads from Statistics Canada.")
+st.title("📊 IPPI vs RMPI Trends")
+st.markdown(
+    "Analyze the monthly changes in Industrial Product Price Index (IPPI) and Raw Material Price Index (RMPI) "
+    "using direct CSV downloads from Statistics Canada."
+)
 
 # Initialize session state for data caching
 if 'ippi_df' not in st.session_state:
@@ -17,8 +20,12 @@ if 'rmpi_df' not in st.session_state:
 # Date range selectors
 min_date = pd.Timestamp("2020-01-01")
 max_date = pd.Timestamp.today()
-start_date = st.date_input("Start Date", min_value=min_date, max_value=max_date, value=min_date)
-end_date = st.date_input("End Date", min_value=min_date, max_value=max_date, value=max_date)
+start_date = st.date_input(
+    "Start Date", min_value=min_date, max_value=max_date, value=min_date
+)
+end_date = st.date_input(
+    "End Date", min_value=min_date, max_value=max_date, value=max_date
+)
 
 # Define the two index trackers using table PIDs
 ippi_tracker = IndexTracker(
@@ -51,13 +58,18 @@ with col2:
 # Generate and display the chart
 if st.session_state.ippi_df is not None and st.session_state.rmpi_df is not None:
     if st.button("📈 Generate Comparison Graph"):
-        # Merge on reference period
         df_ipp = st.session_state.ippi_df
         df_rmp = st.session_state.rmpi_df
-        merged = pd.merge(df_ipp, df_rmp, on='Reference period', suffixes=('_IPPI','_RMPI'))
+        merged = pd.merge(
+            df_ipp, df_rmp,
+            on='Reference period',
+            suffixes=('_IPPI','_RMPI')
+        )
         # Filter by selected date range
-        merged = merged[(merged['Reference period'] >= pd.to_datetime(start_date)) &
-                        (merged['Reference period'] <= pd.to_datetime(end_date))]
+        merged = merged[
+            (merged['Reference period'] >= pd.to_datetime(start_date)) &
+            (merged['Reference period'] <= pd.to_datetime(end_date))
+        ]
         merged.sort_values('Reference period', inplace=True)
 
         x_data = merged['Reference period'].dt.strftime("%b %Y").tolist()
@@ -102,15 +114,6 @@ if st.session_state.ippi_df is not None and st.session_state.rmpi_df is not None
                     ]
                 ],
                 "itemStyle": {"color": "#a9a9a9"},
-                "silent": True
-            },
-            "markArea2": {
-                "data": [
-                    [
-                        {"xAxis": "Mar 2025"}, {"xAxis": "Apr 2025"}
-                    ]
-                ],
-                "itemStyle": {"color": "#8b4513"},
                 "silent": True
             },
             "dataZoom": [{"type": "inside"}, {"type": "slider"}]

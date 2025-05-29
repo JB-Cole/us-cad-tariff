@@ -1,57 +1,79 @@
 import pandas as pd
-import requests, io, zipfile
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+from bs4 import BeautifulSoup
+import time
+import streamlit as st
 
 
-def grab_table_csv(pid: str) -> pd.DataFrame:
-    """
-    Fetches the full table CSV (zipped) from the StatCan REST endpoint and returns as a DataFrame.
-    pid: table ID string, e.g. '1810026501'
-    """
-    csv_url = f"https://www150.statcan.gc.ca/t1/wds/rest/getFullTableDownloadCSV/{pid}/en"
-    response = requests.get(csv_url)
-    try:
-        response.raise_for_status()
-    except requests.HTTPError as e:
-        raise ValueError(f"Failed to download CSV for PID {pid}: {e}")
+@st.cache_data(show_spinner=False)
+def grab_table_from_page(url):
+    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+    driver.get(url)
+    time.sleep(5)
 
-    # The endpoint returns a ZIP archive containing the CSV
-    with zipfile.ZipFile(io.BytesIO(response.content)) as z:
-        # Assume first file in the archive is the CSV
-        csv_name = z.namelist()[0]
-        with z.open(csv_name) as f:
-            df = pd.read_csv(f)
+    soup = BeautifulSoup(driver.page_source, 'html.parser')
+    driver.quit()
+
+    table = soup.find('table', {'id': 'simpleTable'})
+    if not table:
+        raise ValueError("Couldn’t find the table with id 'simpleTable'!")
+
+    thead = table.find('thead')
+    header_rows = thead.find_all('tr')
+    if len(header_rows) < 2:
+        raise ValueError("Not enough rows in <thead> to find date columns!")
+
+    header_row = header_rows[1]
+    th_elements = header_row.find_all('th')
+    raw_headers = [th.get_text(strip=True) for th in th_elements]
+    date_headers = [h for h in raw_headers if h and h.split(' ')[0] in [
+        'January', 'February', 'March', 'April', 'May', 'June',
+        'July', 'August', 'September', 'October', 'November', 'December']]
+    headers = ['Product'] + date_headers
+
+    tbody = table.find('tbody')
+    rows = []
+    for row in tbody.find_all('tr', class_='highlight-row'):
+        th = row.find('th')
+        if not th:
+            continue
+        product_name = th.get_text(strip=True)
+        tds = row.find_all('td')
+        cell_values = [td.get_text(strip=True) for td in tds]
+        cells = [product_name] + cell_values
+        if len(cells) == len(headers):
+            rows.append(cells)
+
+    df = pd.DataFrame(rows, columns=headers)
     return df
 
+
+# Button to clear the cache
+if st.button("🧹 Clear Cached Data"):
+    st.cache_data.clear()
+    st.success("Cached data has been cleared.")
+
+
 class IndexTracker:
-    """
-    Tracks and processes one price index from Statistics Canada.
-    """
-    def __init__(self, index_name: str, pid: str, target_product: str):
-        self.index_name = index_name  # e.g. "IPPI"
-        self.pid = pid                # e.g. "1810026501"
+    def __init__(self, index_name, page_url, target_product):
+        self.index_name = index_name
+        self.page_url = page_url
         self.target_product = target_product
-        self.data: pd.DataFrame | None = None
+        self.data = None
 
-    def fetch_data(self) -> pd.DataFrame:
-        # 1) Download full table via CSV
-        df = grab_table_csv(self.pid)
+    def fetch_data(self):
+        raw_data = grab_table_from_page(self.page_url)
+        raw_data['Product'] = raw_data['Product'].str.strip()
+        target_clean = self.target_product.split('[')[0].strip()
+        filtered_data = raw_data[raw_data['Product'].str.contains(target_clean, case=False, na=False)]
 
-        # 2) Filter rows by target_product substring in 'VECTOR'
-        key = self.target_product.split('[')[0].strip()
-        filtered = df[df['VECTOR'].str.contains(key, case=False, na=False)]
-
-        # 3) Pivot: index by REF_DATE, columns are VECTOR, values are VALUE
-        pivot = filtered.pivot(index='REF_DATE', columns='VECTOR', values='VALUE')
-        pivot.index = pd.to_datetime(pivot.index)
-
-        # 4) Select the column matching our target_product and rename it
-        matches = [c for c in pivot.columns if key.lower() in c.lower()]
-        if not matches:
-            raise ValueError(f"Target product not found: {self.target_product}")
-        series = pivot[matches[0]].rename(self.index_name)
-
-        # 5) Return tidy DataFrame
-        result = series.reset_index()
-        result.columns = ['Reference period', 'Value']
-        self.data = result
+        date_cols = [col for col in raw_data.columns if col != 'Product']
+        melted_data = filtered_data.melt(id_vars=['Product'], value_vars=date_cols,
+                                         var_name='Reference period', value_name='Value')
+        melted_data['Value'] = pd.to_numeric(melted_data['Value'], errors='coerce')
+        melted_data['Reference period'] = pd.to_datetime(melted_data['Reference period'], format='%B %Y', errors='coerce')
+        melted_data.dropna(inplace=True)
+        self.data = melted_data[['Reference period', 'Value']]
         return self.data

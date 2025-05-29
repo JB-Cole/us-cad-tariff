@@ -15,7 +15,7 @@ if 'rmpi_data' not in st.session_state:
     st.session_state.rmpi_data = None
 
 # Date range selectors
-min_date = pd.Timestamp("2020-01-01")
+min_date = pd.Timestamp("2024-01-01")
 max_date = pd.Timestamp.today()
 start_date = st.date_input("Start Date", min_value=min_date, max_value=max_date, value=min_date)
 end_date = st.date_input("End Date", min_value=min_date, max_value=max_date, value=max_date)

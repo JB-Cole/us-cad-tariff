@@ -64,4 +64,4 @@ Submit a PR when ready!
 ---
 
 ## 📬 Contact
-Project led by **James Cole**. For questions or contributions, feel free to open an issue or contact the team.
+Project led by **James Cole**. For questions or contributions, feel free to open an issue.

@@ -39,22 +39,16 @@ col1, col2 = st.columns(2)
 with col1:
     if st.button("🔄 Fetch IPPI Data"):
         with st.spinner("Fetching IPPI data..."):
-            # Fetch and save IPPI to CSV
-            df_ippi = ippi_tracker.fetch_data()
-            df_ippi.to_csv("data/ippi.csv", index=False)
-            st.session_state.ippi_data = df_ippi
-            st.success("IPPI data fetched and saved to data/ippi.csv!")
-            st.dataframe(df_ippi)
+            st.session_state.ippi_data = ippi_tracker.fetch_data()
+            st.success("IPPI data fetched!")
+            st.dataframe(st.session_state.ippi_data)
 
 with col2:
     if st.button("🔄 Fetch RMPI Data"):
         with st.spinner("Fetching RMPI data..."):
-            # Fetch and save RMPI to CSV
-            df_rmpi = rmpi_tracker.fetch_data()
-            df_rmpi.to_csv("data/rmpi.csv", index=False)
-            st.session_state.rmpi_data = df_rmpi
-            st.success("RMPI data fetched and saved to data/rmpi.csv!")
-            st.dataframe(df_rmpi)
+            st.session_state.rmpi_data = rmpi_tracker.fetch_data()
+            st.success("RMPI data fetched!")
+            st.dataframe(st.session_state.rmpi_data)
 
 # Show chart only when user clicks 'Generate Graph' and both datasets exist
 if st.session_state.ippi_data is not None and st.session_state.rmpi_data is not None:
@@ -115,6 +109,3 @@ if st.session_state.ippi_data is not None and st.session_state.rmpi_data is not 
         st_echarts(options=options, height="550px")
 else:
     st.info("Please fetch both IPPI and RMPI datasets, then click 'Generate Comparison Graph' to view the chart.")
-
-
-

@@ -19,11 +19,13 @@ def grab_table_from_page(url: str) -> pd.DataFrame:
 
     # Extract headers (month-year columns)
     thead = table.find('thead')
+    if not thead:
+        raise ValueError("No <thead> found in the table!")
     header_rows = thead.find_all('tr')
-    if len(header_rows) < 2:
-        raise ValueError("Not enough header rows to extract dates!")
+    # Use second row if available, else first row
+    header_row = header_rows[1] if len(header_rows) > 1 else header_rows[0]
+    raw_headers = [th.get_text(strip=True) for th in header_row.find_all('th')]
 
-    raw_headers = [th.get_text(strip=True) for th in header_rows[1].find_all('th')]
     # Keep only month-year strings
     months = [
         'January','February','March','April','May','June',
@@ -34,6 +36,8 @@ def grab_table_from_page(url: str) -> pd.DataFrame:
 
     # Extract table body rows
     tbody = table.find('tbody')
+    if not tbody:
+        raise ValueError("No <tbody> found in the table!")
     rows = []
     for tr in tbody.find_all('tr', class_='highlight-row'):
         # Product name in <th>
@@ -45,8 +49,12 @@ def grab_table_from_page(url: str) -> pd.DataFrame:
         tds = tr.find_all('td')
         values = [td.get_text(strip=True) for td in tds]
         if len(values) != len(date_headers):
+            # Skip rows with mismatched columns
             continue
         rows.append([product] + values)
+
+    if not rows:
+        raise ValueError("No data rows extracted from the table!")
 
     # Build DataFrame
     df = pd.DataFrame(rows, columns=headers)

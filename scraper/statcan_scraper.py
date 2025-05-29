@@ -23,26 +23,28 @@ def grab_table_from_page(url: str) -> pd.DataFrame:
         raise ValueError("No <thead> found in the table!")
     header_rows = thead.find_all('tr')
     if header_rows:
-        # Use second row if available, else first
         header_row = header_rows[1] if len(header_rows) > 1 else header_rows[0]
         raw_headers = [th.get_text(strip=True) for th in header_row.find_all('th')]
     else:
-        # Fallback: all <th> in thead
         raw_headers = [th.get_text(strip=True) for th in thead.find_all('th')]
 
-        # Identify date-like headers by attempting to parse dates
-    import pandas as _pd  # local alias to avoid shadowing
+    # Identify date-like headers by parsing
+    import pandas as _pd
+    months = [
+        'January','February','March','April','May','June',
+        'July','August','September','October','November','December'
+    ]
     date_headers = []
     for h in raw_headers:
-        # First try full month-year parsing
+        # Try month Year format first
         dt = _pd.to_datetime(h, format='%B %Y', errors='coerce')
         if _pd.isna(dt):
-            # Fallback to any generic date parse
+            # Try generic parse
             dt = _pd.to_datetime(h, errors='coerce')
         if not _pd.isna(dt):
             date_headers.append(h)
     if not date_headers:
-        raise ValueError("No date-like columns found in headers! Raw headers: {}".format(raw_headers))
+        raise ValueError(f"No date-like columns found in headers! Raw headers: {raw_headers}")
     headers = ['Product'] + date_headers
 
     # Extract table body rows
@@ -51,23 +53,19 @@ def grab_table_from_page(url: str) -> pd.DataFrame:
         raise ValueError("No <tbody> found in the table!")
     rows = []
     for tr in tbody.find_all('tr', class_='highlight-row'):
-        # Product name in <th>
         th = tr.find('th')
         if not th:
             continue
         product = th.get_text(strip=True)
-        # Data cells
         tds = tr.find_all('td')
         values = [td.get_text(strip=True) for td in tds]
         if len(values) != len(date_headers):
-            # Skip rows with mismatched columns
             continue
         rows.append([product] + values)
 
     if not rows:
         raise ValueError("No data rows extracted from the table!")
 
-    # Build DataFrame
     df = pd.DataFrame(rows, columns=headers)
     return df
 

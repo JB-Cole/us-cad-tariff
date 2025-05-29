@@ -1,7 +1,6 @@
 import streamlit as st
 from scraper.statcan_scraper import IndexTracker
 import pandas as pd
-from pathlib import Path
 from streamlit_echarts import st_echarts
 
 st.set_page_config(page_title="IPPI vs RMPI Trends", layout="wide")
@@ -118,23 +117,4 @@ else:
     st.info("Please fetch both IPPI and RMPI datasets, then click 'Generate Comparison Graph' to view the chart.")
 
 
-
-st.title("📂 Data Files")
-
-data_folder = Path("data")
-csv_files = sorted(data_folder.glob("*.csv"))
-
-if not csv_files:
-    st.info("No data CSVs found. Fetch data from the Trends page first.")
-else:
-    for csv in csv_files:
-        st.subheader(csv.name)
-        df = pd.read_csv(csv)
-        st.dataframe(df)
-        st.download_button(
-            label="Download " + csv.name,
-            data=df.to_csv(index=False),
-            file_name=csv.name,
-            mime="text/csv"
-        )
 

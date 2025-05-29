@@ -9,7 +9,10 @@ def grab_table_csv(pid: str) -> pd.DataFrame:
     """
     csv_url = f"https://www150.statcan.gc.ca/t1/wds/rest/getFullTableDownloadCSV/{pid}/en"
     response = requests.get(csv_url)
-    response.raise_for_status()
+    try:
+        response.raise_for_status()
+    except requests.HTTPError as e:
+        raise ValueError(f"Failed to download CSV for PID {pid}: {e}")
 
     # The endpoint returns a ZIP archive containing the CSV
     with zipfile.ZipFile(io.BytesIO(response.content)) as z:

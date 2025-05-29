@@ -30,14 +30,19 @@ def grab_table_from_page(url: str) -> pd.DataFrame:
         # Fallback: all <th> in thead
         raw_headers = [th.get_text(strip=True) for th in thead.find_all('th')]
 
-    # Keep only month-year strings
-    months = [
-        'January','February','March','April','May','June',
-        'July','August','September','October','November','December'
-    ]
-    date_headers = [h for h in raw_headers if h and h.split(' ')[0] in months]
+        # Identify date-like headers by attempting to parse dates
+    import pandas as _pd  # local alias to avoid shadowing
+    date_headers = []
+    for h in raw_headers:
+        # First try full month-year parsing
+        dt = _pd.to_datetime(h, format='%B %Y', errors='coerce')
+        if _pd.isna(dt):
+            # Fallback to any generic date parse
+            dt = _pd.to_datetime(h, errors='coerce')
+        if not _pd.isna(dt):
+            date_headers.append(h)
     if not date_headers:
-        raise ValueError("No date columns found in headers!")
+        raise ValueError("No date-like columns found in headers! Raw headers: {}".format(raw_headers))
     headers = ['Product'] + date_headers
 
     # Extract table body rows

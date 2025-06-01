@@ -1,79 +1,87 @@
 import pandas as pd
-from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
-from webdriver_manager.chrome import ChromeDriverManager
-from bs4 import BeautifulSoup
-import time
-import streamlit as st
+import requests, zipfile, io
 
+def grab_table_csv(pid: str) -> pd.DataFrame:
+    code = pid[:-2]
+    zip_url = f"https://www150.statcan.gc.ca/n1/tbl/csv/{code}-eng.zip"
+    print(f"Attempting to download from: {zip_url}")
 
-@st.cache_data(show_spinner=False)
-def grab_table_from_page(url):
-    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
-    driver.get(url)
-    time.sleep(5)
+    try:
+        resp = requests.get(zip_url, timeout=30)
+        resp.raise_for_status()
+        print(f"Download successful. Content length: {len(resp.content)} bytes")
+    except requests.RequestException as e:
+        print(f"Download failed: {e}")
+        return pd.DataFrame()
 
-    soup = BeautifulSoup(driver.page_source, 'html.parser')
-    driver.quit()
-
-    table = soup.find('table', {'id': 'simpleTable'})
-    if not table:
-        raise ValueError("Couldn’t find the table with id 'simpleTable'!")
-
-    thead = table.find('thead')
-    header_rows = thead.find_all('tr')
-    if len(header_rows) < 2:
-        raise ValueError("Not enough rows in <thead> to find date columns!")
-
-    header_row = header_rows[1]
-    th_elements = header_row.find_all('th')
-    raw_headers = [th.get_text(strip=True) for th in th_elements]
-    date_headers = [h for h in raw_headers if h and h.split(' ')[0] in [
-        'January', 'February', 'March', 'April', 'May', 'June',
-        'July', 'August', 'September', 'October', 'November', 'December']]
-    headers = ['Product'] + date_headers
-
-    tbody = table.find('tbody')
-    rows = []
-    for row in tbody.find_all('tr', class_='highlight-row'):
-        th = row.find('th')
-        if not th:
-            continue
-        product_name = th.get_text(strip=True)
-        tds = row.find_all('td')
-        cell_values = [td.get_text(strip=True) for td in tds]
-        cells = [product_name] + cell_values
-        if len(cells) == len(headers):
-            rows.append(cells)
-
-    df = pd.DataFrame(rows, columns=headers)
-    return df
-
-
-# Button to clear the cache
-if st.button("🧹 Clear Cached Data"):
-    st.cache_data.clear()
-    st.success("Cached data has been cleared.")
-
+    try:
+        with zipfile.ZipFile(io.BytesIO(resp.content)) as z:
+            csv_name = next((n for n in z.namelist() if n.lower().endswith(".csv")), None)
+            if not csv_name:
+                print("No CSV file found in ZIP")
+                return pd.DataFrame()
+            print(f"Extracting CSV: {csv_name}")
+            with z.open(csv_name) as f:
+                df = pd.read_csv(f, dtype=str)
+                print(f"Raw DataFrame shape: {df.shape}")
+                print(f"Sample columns: {list(df.columns)}")
+                print(f"Sample VECTOR values: {df['VECTOR'].head().tolist()}")
+                return df
+    except Exception as e:
+        print(f"Error processing ZIP: {e}")
+        return pd.DataFrame()
 
 class IndexTracker:
-    def __init__(self, index_name, page_url, target_product):
-        self.index_name = index_name
-        self.page_url = page_url
-        self.target_product = target_product
+    def __init__(self, pid: str, target_product: str):
+        self.pid = pid
+        self.target_product = target_product.strip()
         self.data = None
+        print(f"Initialized with PID: {pid}, Target product: {self.target_product}")
 
-    def fetch_data(self):
-        raw_data = grab_table_from_page(self.page_url)
-        raw_data['Product'] = raw_data['Product'].str.strip()
-        target_clean = self.target_product.split('[')[0].strip()
-        filtered_data = raw_data[raw_data['Product'].str.contains(target_clean, case=False, na=False)]
+    def fetch_data(self, start: pd.Timestamp | None = None, end: pd.Timestamp | None = None) -> pd.DataFrame:
+        raw = grab_table_csv(self.pid)
+        if raw.empty:
+            print("Raw data is empty after download")
+            return pd.DataFrame()
 
-        date_cols = [col for col in raw_data.columns if col != 'Product']
-        melted_data = filtered_data.melt(id_vars=['Product'], value_vars=date_cols,
-                                         var_name='Reference period', value_name='Value')
-        melted_data['Value'] = pd.to_numeric(melted_data['Value'], errors='coerce')
-        melted_data['Reference period'] = pd.to_datetime(melted_data['Reference period'], format='%B %Y', errors='coerce')
-        melted_data.dropna(inplace=True)
-        self.data = melted_data[['Reference period', 'Value']]
-        return self.data
+        print(f"Full dataset columns: {list(raw.columns)}")
+        if "VECTOR" not in raw.columns:
+            print("VECTOR column not found in data")
+            return pd.DataFrame()
+
+        mask = raw["VECTOR"].str.lower().str.contains(self.target_product.lower(), na=False)
+        print(f"Target product (lowercase for match): '{self.target_product.lower()}'")
+        print(f"Original target product: '{self.target_product}'")
+        print(f"Number of matching rows: {mask.sum()}")
+        df = raw.loc[mask, ["REF_DATE", "VALUE"]].copy()
+        print(f"Filtered DataFrame shape: {df.shape}")
+
+        if df.empty:
+            print("No rows matched the target product filter")
+            return pd.DataFrame()
+
+        df.columns = ["Reference period", "Value"]
+        df["Reference period"] = pd.to_datetime(df["Reference period"], errors="coerce")
+        df["Value"] = pd.to_numeric(df["Value"], errors="coerce")
+        print(f"After conversion - NaN in Reference period: {df['Reference period'].isna().sum()}")
+        print(f"After conversion - NaN in Value: {df['Value'].isna().sum()}")
+
+        # Debug: Print the range of Reference period
+        if not df["Reference period"].isna().all():
+            print(f"Reference period range: {df['Reference period'].min()} to {df['Reference period'].max()}")
+        else:
+            print("All Reference period values are NaN")
+
+        print(f"Start date: {start}, End date: {end}")  # Debug: Confirm passed dates
+
+        if start is not None:
+            df = df[df["Reference period"] >= start]
+            print(f"After start filter ({start}): {len(df)} rows")
+        if end is not None:
+            df = df[df["Reference period"] <= end]
+            print(f"After end filter ({end}): {len(df)} rows")
+
+        df = df.dropna().sort_values("Reference period").reset_index(drop=True)
+        print(f"Final DataFrame shape: {df.shape}")
+        self.data = df
+        return df

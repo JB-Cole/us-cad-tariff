@@ -31,13 +31,8 @@ pip install -r requirements.txt
 streamlit run app.py
 ```
 
-
 ##  Contributions
-
-We welcome contributions! To add a new scraper or visualization page:
-1. Follow the guide in `CONTRIBUTING.md`
-2. Create a new Python file under `scraper/`
-3. Add your Streamlit dashboard to `pages/`
+Follow the guide in `CONTRIBUTING.md`
 
 
 ## Data Sources

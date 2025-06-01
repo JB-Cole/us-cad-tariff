@@ -5,24 +5,24 @@ from pathlib import Path
 from scraper.statcan_scraper import IndexTracker
 from streamlit_echarts import st_echarts
 
-# ─── Page & Data Setup ─────────────────────────────────────────────────────────
+# Page & Data Setup
 st.set_page_config(page_title="IPPI vs RMPI Trends", layout="wide")
-st.title("📊 IPPI vs RMPI Trends")
-st.markdown("Select date range, Fetch to pull & filter CSV, then Generate Graph.")
+st.title("📊 IPPI (Fabricated metal products and construction materials [P63]) vs RMPI (Metal ores, concentrates and scrap [M61]) Trends")
+st.markdown("Select date range, (current Statcan data available until April, 2025). Fetch to pull & filter CSV, then Generate Graph.")
 
 # Ensure data directory exists
 data_dir = Path("data")
 data_dir.mkdir(exist_ok=True)
 
-# ─── Date Pickers ────────────────────────────────────────────────────────────────
-min_date = pd.Timestamp("2023-01-01")
+# Date Pickers
+min_date = pd.Timestamp("2020-01-01")
 max_date = pd.Timestamp.today()
 start_date = st.date_input("Start Date", min_value=min_date, max_value=max_date, value=min_date)
 end_date = st.date_input("End Date", min_value=min_date, max_value=max_date, value=max_date)
 start_date = pd.to_datetime(start_date)
 end_date = pd.to_datetime(end_date)
 
-# ─── CSV-Only Trackers ─────────────────────────────────────────────────────────
+# CSV-Only Trackers 
 ippi = IndexTracker(
     pid="1810026501",
     target_product="v1230995999"
@@ -32,7 +32,7 @@ rmpi = IndexTracker(
     target_product="v1230998193"
 )
 
-# ─── Fetch & Save Buttons ──────────────────────────────────────────────────────
+# Fetch & Save Buttons 
 col1, col2 = st.columns(2)
 with col1:
     if st.button("🔄 Fetch IPPI"):
@@ -70,7 +70,7 @@ with col2:
         except Exception as e:
             st.error(f"Failed to fetch RMPI: {e}")
 
-# ─── Helper to Load Saved CSVs ─────────────────────────────────────────────────
+# Helper to Load Saved CSVs
 @st.cache_data
 def load_csv(fname: str, _cache_buster: str = "") -> pd.DataFrame:
     path = data_dir / fname
@@ -99,7 +99,7 @@ if df_rm.empty:
     st.warning("⚠️ The RMPI CSV is empty. Try a different date range and Fetch again.")
     st.stop()
 
-# ─── ECharts Comparison Graph ──────────────────────────────────────────────────
+# ECharts Comparison Graph
 if st.button("📈 Generate Comparison Graph"):
     merged = pd.merge(
         df_ip, df_rm,

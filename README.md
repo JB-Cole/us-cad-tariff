@@ -1,69 +1,47 @@
-# 🏗️ Construction Tariff Impact Dashboard
 
-This interactive dashboard analyzes the impact of recent U.S.-Canada tariff measures on Canada's construction industry. It uses scraped data from public sources like Statistics Canada to visualize trends in material prices and product indices.
 
----
+# U.S. - Canada Construction Tariff Impact
 
-## 📦 Project Structure
+## Overview
+This Streamlit application is designed to explore the impact of U.S.-Canada tariffs on Canada's production and construction sectors. It provides an interactive interface to visualize key economic indices, specifically the Industrial Product Price Index (IPPI) and Raw Materials Price Index (RMPI), sourced from Statistics Canada. The dashboard allows users to filter data to highlight significant tariff dispute phases (January 2025 implementation and March 2025 lobbying period). Data is scraped and saved as CSV files, accessible via the Data tab.
 
-```
-construction_tariff_app/
-├── app.py                      # Main app launcher
-├── pages/
-│   └── trends.py              # IPPI vs RMPI trend visualizer
-├── scraper/
-│   └── statcan_scraper.py     # Scraper logic for Statistics Canada tables
-├── data/                      # (Optional) local data cache
-├── requirements.txt           # Python dependencies
-├── CONTRIBUTING.md            # Contribution instructions
-└── README.md                  # Project overview (this file)
-```
+## Features
+- **Interactive Visualization**: Filter IPPI and RMPI data by date to analyze trends from 202o to April 2025 (latest available data as of the app's creation).
+- **Tariff Impact Analysis**: Highlight key tariff phases with customizable date ranges. View data from 2024 - 2025 for clearer context.
+- **Data Management**: View and download scraped CSV data in the Data tab.
 
----
 
-## 🚀 Getting Started
+## How the Code Works
+The application is built using Python with the following components:
+- **Streamlit**: Provides the web interface for interactivity.
+- **Requests and Pandas**: Used to scrape and process Statistics Canada data.
+- **Data Fetching**: The `IndexTracker` class in `statcan_scraper.py` fetches data from Statistics Canada using specific Product IDs (PIDs) and filters it based on VECTOR codes (e.g., `v12300998193` for IPPI).
+- **Visualization**: Data is displayed in the Trends tab, with filtering options for start and end dates.
 
-### 🔧 Installation
+The app scrapes data from URLs like `https://www150.statcan.gc.ca/n1/tbl/csv/18100265-eng.zip` (for IPPI) and processes it into a DataFrame, which is then saved as a CSV file.
+
+
+###  Installation
 ```bash
 pip install -r requirements.txt
 ```
 
-### ▶️ Run the App
+###  Run the App
 ```bash
 streamlit run app.py
 ```
 
-Use the sidebar to navigate between pages.
 
----
-
-## 📊 Features
-
-- **RMPI and IPPI** time-series visualizations
-- **Modular scraper design**: Add your own web scraping logic
-- **Interactive ECharts dashboard** powered by `streamlit-echarts`
-
----
-
-## 🤝 Contributions
+##  Contributions
 
 We welcome contributions! To add a new scraper or visualization page:
 1. Follow the guide in `CONTRIBUTING.md`
 2. Create a new Python file under `scraper/`
 3. Add your Streamlit dashboard to `pages/`
 
-Submit a PR when ready!
 
----
-
-## 📚 Data Sources
+## Data Sources
 - [Statistics Canada IPPI](https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1810026501)
 - [Statistics Canada RMPI](https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1810026801)
 - [CHBA Reports](https://www.chba.ca/) – for qualitative insight
 
----
-
-## 📬 Contact
-For questions or contributions, feel free to open an issue.
-
----

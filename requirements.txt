@@ -4,5 +4,4 @@ beautifulsoup4
 selenium
 webdriver-manager
 streamlit-echarts
-
-
+streamlit-lottie

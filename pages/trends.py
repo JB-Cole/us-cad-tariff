@@ -7,8 +7,8 @@ from streamlit_echarts import st_echarts
 
 # Page & Data Setup
 st.set_page_config(page_title="IPPI vs RMPI Trends", layout="wide")
-st.title("📊 IPPI (Fabricated metal products and construction materials [P63]) vs RMPI (Metal ores, concentrates and scrap [M61]) Trends")
-st.markdown("Select date range, (current Statcan data available until April, 2025). Fetch to pull & filter CSV, then Generate Graph.")
+st.title("📊 IPPI vs RMPI Trends")
+st.markdown("Select date range. Fetch to pull & filter CSV, then Generate Graph.")
 
 # Ensure data directory exists
 data_dir = Path("data")

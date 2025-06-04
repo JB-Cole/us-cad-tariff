@@ -19,8 +19,8 @@ min_date = pd.Timestamp("2020-01-01")
 max_date = pd.Timestamp.today()
 start_date = st.date_input("Start Date", min_value=min_date, max_value=max_date, value=min_date)
 end_date = st.date_input("End Date", min_value=min_date, max_value=max_date, value=max_date)
-start_date = pd.to_datetime(start_date)
-end_date = pd.to_datetime(end_date)
+start_date = pd.to_datetime(min_date)
+end_date = pd.to_datetime(max_date)
 
 # CSV-Only Trackers 
 ippi = IndexTracker(

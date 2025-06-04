@@ -106,8 +106,8 @@ if st.button("📈 Generate Comparison Graph"):
         on="Reference period",
         suffixes=("_IPPI", "_RMPI")
     )
-    merged = merged[(merged['Reference period'] >= pd.to_datetime(start_date)) &
-                        (merged['Reference period'] <= pd.to_datetime(end_date))]
+    merged = merged[(merged['Reference period'] >= pd.to_datetime(min_date)) &
+                        (merged['Reference period'] <= pd.to_datetime(max_date))]
 
     merged.sort_values('Reference period', inplace=True)
 

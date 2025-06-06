@@ -19,8 +19,8 @@ min_date = pd.Timestamp("2020-01-01")
 max_date = pd.Timestamp.today()
 start_date = st.date_input("Start Date", min_value=min_date, max_value=max_date, value=min_date)
 end_date = st.date_input("End Date", min_value=min_date, max_value=max_date, value=max_date)
-start_date = pd.to_datetime(min_date)
-end_date = pd.to_datetime(max_date)
+start_date = pd.to_datetime(start_date)
+end_date = pd.to_datetime(end_date)
 
 # CSV-Only Trackers 
 ippi = IndexTracker(
@@ -106,8 +106,9 @@ if st.button("📈 Generate Comparison Graph"):
         on="Reference period",
         suffixes=("_IPPI", "_RMPI")
     )
-    merged = merged[(merged['Reference period'] >= pd.to_datetime(min_date)) &
-                        (merged['Reference period'] <= pd.to_datetime(max_date))]
+  # Filter using user-selected start_date and end_date
+    merged = merged[(merged['Reference period'] >= start_date) & 
+                    (merged['Reference period'] <= end_date)]
 
     merged.sort_values('Reference period', inplace=True)
 

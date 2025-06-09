@@ -10,7 +10,7 @@ st.markdown("""
 
 ### Background
 The Canadian Construction and Production industry is facing significant challenges due to recent trade tensions and retaliatory tariffs between Canada and the United States. 
-In response to the U.S. tariffs on aluminum and steel, Canada has introduced tariffs on an additional $29.8 billion worth of U.S. products (on top of the pre-existing $30 billion worth of goods). 
+In response to the U.S. tariffs on aluminum and steel, Canada has introduced tariffs on an additional 29.8 billion dollars worth of U.S. products (on top of the pre-existing 30 billion dollars worth of goods). 
 For more details, visit [Canada vs U.S.](https://www.cfib-fcei.ca/en/site/us-tariffs#:~:text=Canada%20has%20imposed%20a%2025,billion%20worth%20of%20U.S.%20goods.&text=In%20response%20to%20the%20U.S.,%2430%20billion%20worth%20of%20goods)
 
 ### Data Source

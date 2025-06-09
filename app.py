@@ -6,10 +6,11 @@ st.set_page_config(page_title='Tariff Impact on Construction', layout='wide')
 st.title('🏗️ U.S. - Canada Tariff Impact on Construction and Production sectors')
 
 st.markdown("""
-# Welcome to an interactive dashboard for exploring the impact of U.S. - Canada tariffs on Canada's production and construction sectors.
+### Welcome to an interactive dashboard for exploring the impact of U.S. - Canada tariffs on Canada's production and construction sectors.
 
 ### Background
-The Canadian construction industry is facing significant challenges due to recent trade tensions and retaliatory tariffs between Canada and the United States. A 25% tariff imposed by the U.S. on Canadian construction materials, including steel and aluminum, has triggered rising costs, supply chain disruptions, and affordability issues in both countries.
+The Canadian Construction and Production industry is facing significant challenges due to recent trade tensions and retaliatory tariffs between Canada and the United States. 
+In response to the U.S. tariffs on aluminum and steel, Canada has introduced tariffs on an additional $29.8 billion worth of U.S. products (on top of the pre-existing $30 billion worth of goods). For more details, visit [Canada vs U.S.](https://www.cfib-fcei.ca/en/site/us-tariffs#:~:text=Canada%20has%20imposed%20a%2025,billion%20worth%20of%20U.S.%20goods.&text=In%20response%20to%20the%20U.S.,%2430%20billion%20worth%20of%20goods)
 
 ### Data Source
 This app utilizes web scraping to retrieve the following data from Statistics Canada:

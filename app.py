@@ -2,15 +2,11 @@ import streamlit as st
 
 st.set_page_config(page_title='Tariff Impact on Construction', layout='wide')
 
-# Clear cache when the app loads
-if st.button("Clear Cache"):
-    st.cache_data.clear()
-    st.success("Cache cleared successfully!")
 
 st.title('🏗️ U.S. - Canada Tariff Impact on Construction and Production sectors')
 
 st.markdown("""
-Welcome to an interactive dashboard for exploring the impact of U.S. - Canada tariffs on Canada's production and construction sectors.
+# Welcome to an interactive dashboard for exploring the impact of U.S. - Canada tariffs on Canada's production and construction sectors.
 
 ### Background
 The Canadian construction industry is facing significant challenges due to recent trade tensions and retaliatory tariffs between Canada and the United States. A 25% tariff imposed by the U.S. on Canadian construction materials, including steel and aluminum, has triggered rising costs, supply chain disruptions, and affordability issues in both countries.
@@ -38,6 +34,12 @@ Use the sidebar to switch between pages:
 3. **Fetch Data**: Click "Fetch IPPI" and "Fetch RMPI" to retrieve the data.
 4. **Generate Graph**: Click "Generate Comparison Graph" to visualize the data.
 
+
 ### Additional Information
-For more details on this project, visit the [GitHub Repo](https://github.com/your-repo-link).
+For details on updating code for other IPPIs vs RMPIs visualizations, visit the [GitHub Repo](https://github.com/JB-Cole/us-cad-tariff/blob/main/CONTRIBUTING.md).
 """)
+
+# Clear cache when the app loads
+if st.button("Clear Cache"):
+    st.cache_data.clear()
+    st.success("Cache cleared successfully!")

@@ -1,67 +1,88 @@
-# Contributing to this project
+# Instructions: Updating Code for Other IPPIs vs RMPIs Visualizations
 
-## Reusing the Code for Other Construction/Manufacturing Product Indices
-To adapt this code for visualizing other construction or manufacturing product indices from Statistics Canada, follow these steps:
+This guide provides step-by-step instructions to modify the existing `trends.py` file in your Streamlit app to create visualizations for different IPPIs (Industrial Product Price Indices) and RMPIs (Raw Materials Price Indices) from Statistics Canada. Follow these steps to adapt the code for new product indices.
 
-## 1. Identify New Product Indices
-Visit the Statistics Canada Data Tables page.
-Search for relevant indices (e.g., "Construction Materials," "Manufacturing Products").
-Note the Product ID (PID) and the corresponding VECTOR code for the desired index. For example:
-IPPI PID: 1810026501, VECTOR: v12300998193
-RMPI PID: 1810026801, VECTOR: v12300998199
+## Prerequisites
+- Ensure you have the `trends.py` file and the `scraper/statcan_scraper.py` file with the `IndexTracker` class available.
+- Have access to Statistics Canada product IDs (PIDs) and target product codes for the desired IPPIs and RMPIs (e.g., from the StatCan website).
 
-## 2. Update trends.py
-Open or create trends.py (or modify where IndexTracker instances are initialized, likely in app.py).
-Add new IndexTracker instances with the new PID and VECTOR code. Example:
+## Steps to Update the Code
 
-```python
-from statcan_scraper import IndexTracker
+### 1. Identify New Product Indices
+- Visit the Statistics Canada page 'https://www150.statcan.gc.ca' to find the PIDs and target product codes for the IPPIs and RMPIs you want to visualize.
+  - Example: For Fabricated metal products and construction materials [P63], the PID is `1810026501` and the target product is `v1230995999`.
+  - Example: For Metal ores, concentrates and scrap [M61], the PID is `1810026801` and the target product is `v1230998193`.
+- Record the new PIDs and target product codes for the indices you wish to compare.
 
-# Existing indices
-ippi = IndexTracker(pid="1810026501", target_product="v12300998193")
-rmpi = IndexTracker(pid="1810026801", target_product="v12300998199")
+### 2. Update the IndexTracker Instances
+- Open `trends.py` and locate the section where `IndexTracker` instances are defined (around lines 20-25).
+- Replace the existing `ippi` and `rmpi` instances with the new PIDs and target products. For example:
+  ```python
+  ippi = IndexTracker(
+      pid="NEW_IPPI_PID",
+      target_product="NEW_IPPI_TARGET"
+  )
+  rmpi = IndexTracker(
+      pid="NEW_RMPI_PID",
+      target_product="NEW_RMPI_TARGET"
+  )
+- Replace NEW_IPPI_PID, NEW_IPPI_TARGET, NEW_RMPI_PID, and NEW_RMPI_TARGET with the appropriate values from Step 1.
 
-# New index (e.g., Construction Materials)
-construction_index = IndexTracker(pid="181002XXXX", target_product="v9876543210")  # Replace with actual PID and VECTOR
-```
-To find the correct VECTOR code, fetch the raw data temporarily (as shown below) and inspect the VECTOR column.
+### 3. Adjust Fetch Buttons
+- Locate the fetch button sections (around lines 30-60).
+- Ensure the fetch_data calls use the updated ippi and rmpi instances. The code should already be generic, but verify it looks like this:
+  ```python
+  with col1:
+    if st.button("🔄 Fetch IPPI"):
+        try:
+            df_ip = ippi.fetch_data(start=start_date, end=end_date)
+            if df_ip.empty:
+                st.error("No IPPI data fetched. Check date range or target product.")
+            else:
+                df_ip.to_csv(data_dir/"ippi.csv", index=False)
+                if (data_dir/"ippi.csv").exists():
+                    written_df = pd.read_csv(data_dir/"ippi.csv")
+                    st.success(f"✅ Fetched & saved data/ippi.csv with {len(written_df)} rows")
+                    st.dataframe(df_ip)
+                else:
+                    st.error("Failed to save IPPI CSV.")
+        except Exception as e:
+            st.error(f"Failed to fetch IPPI: {e}")
+    with col2:
+    if st.button("🔄 Fetch RMPI"):
+        try:
+            df_rm = rmpi.fetch_data(start=start_date, end=end_date)
+            if df_rm.empty:
+                st.error("No RMPI data fetched. Check date range or target product.")
+            else:
+                df_rm.to_csv(data_dir/"rmpi.csv", index=False)
+                if (data_dir/"rmpi.csv").exists():
+                    written_df = pd.read_csv(data_dir/"rmpi.csv")
+                    st.success(f"✅ Fetched & saved data/rmpi.csv with {len(written_df)} rows")
+                    st.dataframe(df_rm)
+                else:
+                    st.error("Failed to save RMPI CSV.")
+        except Exception as e:
+            st.error(f"Failed to fetch RMPI: {e}"
+            )
+- No changes are needed here unless you want to rename the buttons or CSV file names (e.g., change ippi.csv to new_ippi.csv).
 
-## 3. Modify Data Fetching Logic
-Update statcan_scraper.py to handle the new index if needed. The existing grab_table_csv function is PID-agnostic, so it should work with new PIDs. Example debug to find VECTOR codes:
+### 4. Test the Updated Code
+- Run the Streamlit app (streamlit run trends.py).
+- Select a date range (e.g., 2020-01-01 to 2025-04-30).
+- Click "🔄 Fetch IPPI" and "🔄 Fetch RMPI" to retrieve the new data.
+- Click "📈 Generate Comparison Graph" to visualize the updated indices.
+- Check for errors in the Streamlit output and verify the data matches the expected range and values.
 
-```python
-def grab_table_csv(pid: str) -> pd.DataFrame:
-    # ... (existing code) ...
-    df = pd.read_csv(f, dtype=str)
-    print(f"Unique VECTOR values for PID {pid}: {df['VECTOR'].unique()}")
-    return df
-```
-Run the app with the new PID, check the console for unique VECTOR values, and update target_product accordingly.
+### 5. Save and Document Changes
+- Save the updated trends.py file.
+- Update the main page (main.py) to reflect the new indices in the description (mention the new IPPI and RMPI categories).
+- Consider adding comments in the code to document the new PIDs and target products for future reference.
 
-## 4. Update the Streamlit Interface
-In app.py, add a new tab or section to display the new index. Example:
+### IMPORTANT NOTES
+- Ensure the IndexTracker class in scraper/statcan_scraper.py can handle the new PIDs and target products. If errors occur, you may need to debug or modify the scraper logic.
+- The CSV files (ippi.csv and rmpi.csv) will be overwritten with new data, so back up existing files if needed.
+- If you want to visualize multiple IPPI vs RMPI pairs simultaneously, you’ll need to extend the code to handle multiple IndexTracker instances and merge multiple DataFrames (this requires additional coding beyond these instructions).
 
-```python
-tab1, tab2, tab3 = st.tabs(["IPPI", "RMPI", "Construction Index"])
-with tab1:
-    st.write(ippi.fetch_data(start=start_date, end=end_date))
-with tab2:
-    st.write(rmpi.fetch_data(start=start_date, end=end_date))
-with tab3:
-    st.write(construction_index.fetch_data(start=start_date, end=end_date))
-```
-Customize the visualization (e.g., charts) using Streamlit’s charting functions (st.line_chart, st.bar_chart) based on the fetched data.
-
-## 5. Test and Deploy
-Test locally with the new index to ensure data loads correctly.
-Update requirements.txt if new dependencies are added.
-Push changes to GitHub and redeploy on Streamlit Cloud.
-
-
-## Contributing
-Fork the repository.
-Create a feature branch: `git checkout -b feature/new-index`
-Commit changes: `git commit -m "Add new construction index`
-Push and open a pull request.
-
-
+### Additional 
+- Refer to local_files directory for alternative scraper logic using selinium webdriver. This scraper does not work with streamlit cloud but should work fine on your local machine. 

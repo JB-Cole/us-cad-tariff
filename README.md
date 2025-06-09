@@ -1,13 +1,13 @@
 
 
-# U.S. - Canada Construction Tariff Impact
+# U.S. - Canada Tariff Impact on Construction and Production sectors
 
 ## Overview
 This Streamlit application is designed to explore the impact of U.S.-Canada tariffs on Canada's production and construction sectors. It provides an interactive interface to visualize key economic indices, specifically the Industrial Product Price Index (IPPI) and Raw Materials Price Index (RMPI), sourced from Statistics Canada. The dashboard allows users to filter data to highlight significant tariff dispute phases (January 2025 implementation and March 2025 lobbying period). Data is scraped and saved as CSV files, accessible via the Data tab.
 
 ## Features
-- **Interactive Visualization**: Filter IPPI and RMPI data by date to analyze trends from 202o to April 2025 (latest available data as of the app's creation).
-- **Tariff Impact Analysis**: Highlight key tariff phases with customizable date ranges. View data from 2024 - 2025 for clearer context.
+- **Interactive Visualization**: Filter IPPI and RMPI data by date to analyze trends from 2020 to April 2025 (latest available data as of the app's creation).
+- **Tariff Impact Analysis**: Highlight key tariff phases with customizable date ranges.
 - **Data Management**: View and download scraped CSV data in the Data tab.
 
 

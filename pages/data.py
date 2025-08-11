@@ -42,10 +42,5 @@ def display_table(table_name, label):
 # Display both datasets
 display_table("ippi_data", "IPPI Data")
 display_table("rmpi_data", "RMPI Data")
-
-
-
-# import bcrypt
-# password = "Koficole_1470".encode('utf-8')
-# hashed = bcrypt.hashpw(password, bcrypt.gensalt())
-# print(hashed.decode('utf-8'))
+display_table("bcpi_residential", "BCPI Data for Residential Buildings")
+display_table("bcpi_nonresidential", "BCPI Data for Non-Residential Buildings")

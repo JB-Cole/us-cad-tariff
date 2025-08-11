@@ -49,7 +49,7 @@ if authentication_status is False:
     st.error('Username/password is incorrect')
     st.stop()
 elif authentication_status is None:
-    st.warning('Please enter your username and password')
+    st.warning('Please enter your username(admin) and password(ADMIN)')
     st.stop()
 else:
     st.session_state['authentication_status'] = True
@@ -95,12 +95,13 @@ if st.session_state['authentication_status']:
     - **Trends (BCPI)**
 
     ### How to Use the App
-    1. **Select Date Range**: Choose a date range between January 2020 and June 2025 (the most recent date for data on StatCan) for your start and end dates.
+    1. **Select Date Range**: Choose a date range between January 2020 and the current date for start and end dates.(the most recent data from Statcan is retrieved)
     2. **Fetch Data**: Click "Fetch IPPI" and "Fetch RMPI" to retrieve the data.
     3. **Generate Graph**: Click "Generate Comparison Graph" to visualize the data.
-    4. **Select Date Range**: Choose a date range between January 2020 and June 2025 (the most recent date for data on StatCan) for your start and end dates.
-    5. **Fetch Data**: Click "Fetch BCPI" to retrieve the data.
+    4. **Select Date Range**: Choose a date range between January 2020 and the current date for start and end dates.(the most recent data from Statcan is retrieved)
+    5. **Fetch Data**: Click "Fetch residnetial BCPI" and "Fetch non-residnetial BCPI" to retrieve the data.
     6. **Generate Graph**: Click "Generate residential BCPI Graph" or "Generate non-residential BCPI Graph"  to visualize the data.
+    7. **View and Download retrieved Data**: Use the Data tab to view the retrieved data and download as csv files.
     """)
 
     
@@ -111,6 +112,6 @@ if st.session_state['authentication_status']:
 
 
 # import bcrypt
-# password = "Koficole_1470".encode('utf-8')
+# password = "ADMIN".encode('utf-8')
 # hashed = bcrypt.hashpw(password, bcrypt.gensalt())
 # print(hashed.decode('utf-8'))

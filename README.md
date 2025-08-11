@@ -1,6 +1,6 @@
 
 
-# U.S. - Canada Tariff Impact on Construction and Production sectors
+# U.S. - Canada Tariff Impact on Construction and Production sectors (Important note --- update this code for new BCPI added)
 
 ## Overview
 This Streamlit application is designed to explore the impact of U.S.-Canada tariffs on Canada's production and construction sectors. It provides an interactive interface to visualize key economic indices, specifically the Industrial Product Price Index (IPPI), Raw Materials Price Index (RMPI), and their effects on the Building Construction Price Index (BCPI),specifically residential and non residential buildings within the metal fabrications division. The data was sourced from Statistics Canada. The dashboard allows users to filter data to highlight significant tariff dispute phases (January 2025 implementation and March 2025 lobbying period). Data is scraped and saved as CSV files, accessible via the Data tab.

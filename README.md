@@ -30,12 +30,10 @@ pip install -r requirements.txt
 streamlit run app.py
 ```
 
-##  Contributions
-Follow the guide in `CONTRIBUTING.md`
 
 
 ## Data Sources
 - [Statistics Canada IPPI](https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1810026501)
 - [Statistics Canada RMPI](https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1810026801)
-- [Statistics Canada RMPI](https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1810028901)
+- [Statistics Canada BCPI](https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1810028901)
 

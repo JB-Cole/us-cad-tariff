@@ -1,8 +1,8 @@
 import pandas as pd
 import streamlit as st
-import streamlit_authenticator as stauth
-import yaml
-from yaml.loader import SafeLoader
+# import streamlit_authenticator as stauth
+# import yaml
+# from yaml.loader import SafeLoader
 
 # Version Check
 print(pd.__version__)
@@ -12,62 +12,62 @@ assert hasattr(pd, 'DataFrame'), "pandas.DataFrame is missing!"
 st.set_page_config(page_title='Tariff Impact on Construction', layout='wide')
 
 # Initialize Session State
-if 'authentication_status' not in st.session_state:
-    st.session_state['authentication_status'] = None
-    st.session_state['name'] = None
-    st.session_state['username'] = None
+# if 'authentication_status' not in st.session_state:
+#     st.session_state['authentication_status'] = None
+#     st.session_state['name'] = None
+#     st.session_state['username'] = None
 
-# Load Authenticator Configuration
-with open('config.yaml') as file:
-    config = yaml.load(file, Loader=SafeLoader)
+# # Load Authenticator Configuration
+# with open('config.yaml') as file:
+#     config = yaml.load(file, Loader=SafeLoader)
 
 # Debugging
 #st.write("Loaded config:", config)
 
-authenticator = stauth.Authenticate(
-    config['credentials'],
-    config['cookie']['name'],
-    config['cookie']['key'],
-    config['cookie']['expiry_days']
-)
+# authenticator = stauth.Authenticate(
+#     config['credentials'],
+#     config['cookie']['name'],
+#     config['cookie']['key'],
+#     config['cookie']['expiry_days']
+# )
 
-# Perform Login
-try:
-    login_result = authenticator.login(fields={'Form name': 'Login'}, location='main')
-except Exception as e:
-    st.error(f"Login crashed: {e}")
-    st.stop()
+# # Perform Login
+# try:
+#     login_result = authenticator.login(fields={'Form name': 'Login'}, location='main')
+# except Exception as e:
+#     st.error(f"Login crashed: {e}")
+#     st.stop()
 
-if login_result is not None:
-    name, authentication_status, username = login_result
-else:
-    st.error("Login failed due to an internal issue.")
-    st.stop()
+# if login_result is not None:
+#     name, authentication_status, username = login_result
+# else:
+#     st.error("Login failed due to an internal issue.")
+#     st.stop()
 
-# Handle Login Outcome
-if authentication_status is False:
-    st.error('Username/password is incorrect')
-    st.stop()
-elif authentication_status is None:
-    st.warning('Please enter your username(admin) and password(ADMIN)')
-    st.stop()
-else:
-    st.session_state['authentication_status'] = True
-    st.session_state['name'] = name
-    st.session_state['username'] = username
+# # Handle Login Outcome
+# if authentication_status is False:
+#     st.error('Username/password is incorrect')
+#     st.stop()
+# elif authentication_status is None:
+#     st.warning('Please enter your username(admin) and password(ADMIN)')
+#     st.stop()
+# else:
+#     st.session_state['authentication_status'] = True
+#     st.session_state['name'] = name
+#     st.session_state['username'] = username
 
-# Authenticated App Content
-if st.session_state['authentication_status']:
+# # Authenticated App Content
+# if st.session_state['authentication_status']:
 
-    # Sidebar
-    with st.sidebar:
-        authenticator.logout('Logout', 'sidebar')
+#     # Sidebar
+#     with st.sidebar:
+#         authenticator.logout('Logout', 'sidebar')
   
 
     # Main Dashboard
-    st.title('U.S. - Canada Tariff Impact on Construction and Production sectors')
+st.title('U.S. - Canada Tariff Impact on Construction and Production sectors')
 
-    st.markdown("""
+st.markdown("""
     ### Welcome to an interactive dashboard for exploring the impact of U.S. - Canada tariffs on Canada's production and construction sectors.
 
     ### Background

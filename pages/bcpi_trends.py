@@ -2,18 +2,11 @@ import streamlit as st
 import pandas as pd
 from scraper.bcpi_scraper import BCPITracker
 from streamlit_echarts import st_echarts
-from db_utils import create_db_engine, save_table, query_table
-
-# Auth check
-if 'authentication_status' not in st.session_state or not st.session_state['authentication_status']:
-    st.error("Please log in on the home page to access this content.")
-    st.markdown("[Go to Home Page](/)")
-    st.stop()
 
 # Page Setup
 st.set_page_config(page_title="BCPI Trends", layout="wide")
 st.title("BCPI Trends for Residential and Non-Residential buildings in Canada, Divison: Metal fabrications")
-st.markdown("Select date range. Fetch & save to DB, then generate graphs.")
+st.markdown("Select date range. Fetch Data to Generate Graphs.")
 
 # Date input
 min_date = pd.Timestamp("2020-01-01")
@@ -23,13 +16,11 @@ end_date = st.date_input("End Date", min_value=min_date, max_value=max_date, val
 start_date = pd.to_datetime(start_date)
 end_date = pd.to_datetime(end_date)
 
-# DB connection
-engine = create_db_engine(
-    user='postgres',
-    password='1234',
-    host='localhost',
-    database='tariffdb'
-)
+# Initialize session state for data
+if 'df_res' not in st.session_state:
+    st.session_state['df_res'] = pd.DataFrame()
+if 'df_nonres' not in st.session_state:
+    st.session_state['df_nonres'] = pd.DataFrame()
 
 # Tracker instances
 res_bcpi = BCPITracker(pid="1810028901", target_vectors=["v1617908010"])
@@ -45,8 +36,8 @@ with col1:
             if df_res.empty:
                 st.error("No Residential BCPI data fetched. Check date range.")
             else:
-                save_table(df_res, 'bcpi_residential', engine, mode='replace')
-                st.success(f"Saved Residential BCPI to DB with {len(df_res)} rows")
+                st.session_state['df_res'] = df_res
+                st.success(f"Fetched Residential BCPI with {len(df_res)} rows")
                 st.dataframe(df_res)
         except Exception as e:
             st.error(f"Failed to fetch Residential BCPI: {e}")
@@ -59,15 +50,15 @@ with col2:
             if df_nonres.empty:
                 st.error("No Non-Residential BCPI data fetched. Check date range.")
             else:
-                save_table(df_nonres, 'bcpi_nonresidential', engine, mode='replace')
-                st.success(f"Saved Non-Residential BCPI to DB with {len(df_nonres)} rows")
+                st.session_state['df_nonres'] = df_nonres
+                st.success(f"Fetched Non-Residential BCPI with {len(df_nonres)} rows")
                 st.dataframe(df_nonres)
         except Exception as e:
             st.error(f"Failed to fetch Non-Residential BCPI: {e}")
 
-# Load from DB
-df_res = query_table(engine, "SELECT * FROM bcpi_residential")
-df_nonres = query_table(engine, "SELECT * FROM bcpi_nonresidential")
+# Load data from session state
+df_res = st.session_state['df_res']
+df_nonres = st.session_state['df_nonres']
 
 # Validate
 if df_res.empty or df_nonres.empty:

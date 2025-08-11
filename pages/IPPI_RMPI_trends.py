@@ -2,19 +2,12 @@ import streamlit as st
 import pandas as pd
 from scraper.statcan_scraper import IndexTracker
 from streamlit_echarts import st_echarts
-from db_utils import create_db_engine, save_table, query_table
-
-# Auth check
-if 'authentication_status' not in st.session_state or not st.session_state['authentication_status']:
-    st.error("Please log in on the home page to access this content.")
-    st.markdown("[Go to Home Page](/)")
-    st.stop()
     
 
 # Page Setup
 st.set_page_config(page_title="IPPI vs RMPI Trends", layout="wide")
 st.title("IPPI vs RMPI Trends")
-st.markdown("Select date range. Fetch to pull & save to DB, then Generate Graph.")
+st.markdown("Select date range. Fetch Data to Generate Graphs.")
 
 # Date input
 min_date = pd.Timestamp("2020-01-01")
@@ -24,13 +17,11 @@ end_date = st.date_input("End Date", min_value=min_date, max_value=max_date, val
 start_date = pd.to_datetime(start_date)
 end_date = pd.to_datetime(end_date)
 
-# DB connection
-engine = create_db_engine(
-    user='postgres',
-    password='1234', 
-    host='localhost',
-    database='tariffdb'
-)
+# Initialize session state for data
+if 'df_ip' not in st.session_state:
+    st.session_state['df_ip'] = pd.DataFrame()
+if 'df_rm' not in st.session_state:
+    st.session_state['df_rm'] = pd.DataFrame()
 
 # IndexTracker instances
 ippi = IndexTracker(pid="1810026501", target_product="v1230995999")
@@ -45,8 +36,8 @@ with col1:
             if df_ip.empty:
                 st.error("No IPPI data fetched. Check date range or target product.")
             else:
-                save_table(df_ip, 'ippi_data', engine, mode='replace')
-                st.success(f"Saved IPPI to DB with {len(df_ip)} rows")
+                st.session_state['df_ip'] = df_ip
+                st.success(f"Fetched IPPI data with {len(df_ip)} rows")
                 st.dataframe(df_ip)
         except Exception as e:
             st.error(f"Failed to fetch IPPI: {e}")
@@ -58,15 +49,16 @@ with col2:
             if df_rm.empty:
                 st.error("No RMPI data fetched. Check date range or target product.")
             else:
-                save_table(df_rm, 'rmpi_data', engine, mode='replace')
-                st.success(f"Saved RMPI to DB with {len(df_rm)} rows")
+                st.session_state['df_rm'] = df_rm
+                st.success(f"Fetched RMPI data with {len(df_rm)} rows")
                 st.dataframe(df_rm)
         except Exception as e:
             st.error(f"Failed to fetch RMPI: {e}")
 
-# Load from database
-df_ip = query_table(engine, "SELECT * FROM ippi_data")
-df_rm = query_table(engine, "SELECT * FROM rmpi_data")
+
+# Load data from session state
+df_ip = st.session_state['df_ip']
+df_rm = st.session_state['df_rm']
 
 # Validate
 if df_ip.empty or df_rm.empty:

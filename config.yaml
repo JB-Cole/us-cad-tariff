@@ -1,0 +1,14 @@
+credentials:
+  usernames:
+    admin:
+      email: admin@example.com
+      name: Admin User
+      password: "$2b$12$IbUjI5N23OppgUWHyqsmqOlHdvPmD5S0X56ARET8Fl/DYLmqTo5WK"
+
+cookie:
+  expiry_days: 30
+  key: "ThisIsA32CharacterLongSecureKeyForCookies123"
+  name: "tariff_app_cookie"
+
+preauthorized:
+  emails: []

@@ -1,4 +1,12 @@
-streamlit
-pandas
+numpy==1.26.4
+pandas==2.0.3
+streamlit==1.47.0
+streamlit-authenticator==0.3.2
+pyyaml==6.0.1
+cryptography==42.0.7
+pyarrow==16.1.0
+jsonschema==4.23.0
 streamlit-echarts
 requests
+SQLAlchemy==2.0.30
+psycopg2-binary==2.9.9

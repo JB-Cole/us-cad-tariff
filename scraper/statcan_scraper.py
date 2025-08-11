@@ -1,5 +1,8 @@
 import pandas as pd
+import streamlit as st
 import requests, zipfile, io
+import logging
+logging.basicConfig(filename='logs/scraper.log', level=logging.ERROR)
 
 def grab_table_csv(pid: str) -> pd.DataFrame:
     code = pid[:-2]
@@ -28,7 +31,8 @@ def grab_table_csv(pid: str) -> pd.DataFrame:
                 print(f"Sample VECTOR values: {df['VECTOR'].head().tolist()}")
                 return df
     except Exception as e:
-        print(f"Error processing ZIP: {e}")
+        logging.error(f"Error processing ZIP for PID {pid}: {e}")
+        print(f"Error processing data: {e}")
         return pd.DataFrame()
 
 class IndexTracker:
@@ -37,7 +41,7 @@ class IndexTracker:
         self.target_product = target_product.strip()
         self.data = None
         print(f"Initialized with PID: {pid}, Target product: {self.target_product}")
-
+   
     def fetch_data(self, start: pd.Timestamp | None = None, end: pd.Timestamp | None = None) -> pd.DataFrame:
         raw = grab_table_csv(self.pid)
         if raw.empty:

@@ -1,25 +1,51 @@
-#data.py
-
 import streamlit as st
 import pandas as pd
-from pathlib import Path
+from db_utils import create_db_engine, query_table
 
-st.title("📂 Data Files")
+# Check authentication status
+if 'authentication_status' not in st.session_state or not st.session_state['authentication_status']:
+    st.error("Please log in on the home page to access this content.")
+    st.markdown("[Go to Home Page](/)")
+    st.stop()
 
-data_folder = Path("data")
-data_folder.mkdir(exist_ok=True)
+# Page Setup
+st.set_page_config(page_title="Data Files", layout="wide")
+st.title("Data Preview")
+st.markdown("Below is the data saved to the database from your previous fetches.")
 
-csv_files = sorted(data_folder.glob("*.csv"))
-if not csv_files:
-    st.info("No data CSVs found. Please Fetch on the Trends page first.")
-else:
-    for csv_path in csv_files:
-        st.subheader(csv_path.name)
-        df = pd.read_csv(csv_path, parse_dates=["Reference period"])
-        st.dataframe(df)
-        st.download_button(
-            label=f"Download {csv_path.name}",
-            data=df.to_csv(index=False),
-            file_name=csv_path.name,
-            mime="text/csv"
-        )
+# Connect to the database
+engine = create_db_engine(
+    user='postgres',
+    password='1234',
+    host='localhost',
+    database='tariffdb'
+)
+
+# Helper function to fetch and display a table
+def display_table(table_name, label):
+    try:
+        df = query_table(engine, f"SELECT * FROM {table_name}")
+        if df.empty:
+            st.warning(f"No data found in `{table_name}`.")
+        else:
+            st.subheader(label)
+            st.dataframe(df)
+            st.download_button(
+                label=f"Download {table_name}.csv",
+                data=df.to_csv(index=False),
+                file_name=f"{table_name}.csv",
+                mime="text/csv"
+            )
+    except Exception as e:
+        st.error(f"Error fetching `{table_name}`: {e}")
+
+# Display both datasets
+display_table("ippi_data", "IPPI Data")
+display_table("rmpi_data", "RMPI Data")
+
+
+
+# import bcrypt
+# password = "Koficole_1470".encode('utf-8')
+# hashed = bcrypt.hashpw(password, bcrypt.gensalt())
+# print(hashed.decode('utf-8'))

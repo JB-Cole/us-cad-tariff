@@ -1,0 +1,15 @@
+2025-08-07 16:36:22,112 - INFO - Initialized with Target division: structural steel framing, Building types: ['Residential buildings', 'non-residential buildings']
+2025-08-07 16:36:22,112 - INFO - Attempting to download from: https://www150.statcan.gc.ca/n1/tbl/csv/181002-eng.zip
+2025-08-07 16:36:22,278 - ERROR - Download failed: 404 Client Error: Not Found for url: https://www150.statcan.gc.ca/n1/tbl/csv/181002-eng.zip
+2025-08-07 16:36:22,281 - WARNING - Raw data is empty after download
+2025-08-07 16:46:11,902 - INFO - Initialized with Target division: structural steel framing, Building types: ['Residential buildings', 'non-residential buildings']
+2025-08-07 16:46:11,902 - INFO - Attempting to download from: https://www150.statcan.gc.ca/n1/tbl/csv/18100298-eng.zip
+2025-08-07 16:46:12,044 - ERROR - Download failed: 404 Client Error: Not Found for url: https://www150.statcan.gc.ca/n1/tbl/csv/18100298-eng.zip
+2025-08-07 16:46:12,046 - WARNING - Raw data is empty after download
+2025-08-07 16:51:30,661 - INFO - Initialized with Target division: structural steel framing, Building types: ['Residential buildings', 'non-residential buildings']
+2025-08-07 16:51:30,661 - INFO - Attempting to download from: https://www150.statcan.gc.ca/n1/tbl/csv/18100298-eng.zip
+2025-08-07 16:51:30,840 - ERROR - Download failed for https://www150.statcan.gc.ca/n1/tbl/csv/18100298-eng.zip: 404 Client Error: Not Found for url: https://www150.statcan.gc.ca/n1/tbl/csv/18100298-eng.zip
+2025-08-07 16:51:30,840 - INFO - Attempting to download from: https://www150.statcan.gc.ca/n1/tbl/csv/181002-eng.zip
+2025-08-07 16:51:30,961 - ERROR - Download failed for https://www150.statcan.gc.ca/n1/tbl/csv/181002-eng.zip: 404 Client Error: Not Found for url: https://www150.statcan.gc.ca/n1/tbl/csv/181002-eng.zip
+2025-08-07 16:51:30,961 - ERROR - Error processing ZIP: File is not a zip file
+2025-08-07 16:51:30,963 - WARNING - Raw data is empty after download

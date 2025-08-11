@@ -1,0 +1,157 @@
+2025-08-07 17:06:39,156 - INFO - Logger initialized successfully
+2025-08-07 17:06:39,156 - INFO - Initialized with Target division: structural steel framing, Building types: ['Residential buildings', 'non-residential buildings']
+2025-08-07 17:06:39,156 - INFO - Attempting to download from: https://www150.statcan.gc.ca/n1/tbl/csv/181002-eng.zip
+2025-08-07 17:06:39,281 - ERROR - Download failed: 404 Client Error: Not Found for url: https://www150.statcan.gc.ca/n1/tbl/csv/181002-eng.zip
+2025-08-07 17:06:39,283 - WARNING - Raw data is empty after download
+2025-08-07 17:09:02,853 - INFO - Logger initialized successfully
+2025-08-07 17:09:02,853 - INFO - Initialized with Target division: structural steel framing, Building types: ['Residential buildings', 'non-residential buildings']
+2025-08-07 17:09:02,853 - INFO - Attempting to download from: https://www150.statcan.gc.ca/n1/tbl/csv/18100298-eng.zip
+2025-08-07 17:09:02,976 - ERROR - Download failed: 404 Client Error: Not Found for url: https://www150.statcan.gc.ca/n1/tbl/csv/18100298-eng.zip
+2025-08-07 17:09:02,978 - WARNING - Raw data is empty after download
+2025-08-07 17:10:27,263 - INFO - Logger initialized successfully
+2025-08-07 17:10:27,264 - INFO - Initialized with Target division: structural steel framing, Building types: ['Residential buildings', 'non-residential buildings']
+2025-08-07 17:10:27,264 - INFO - Attempting to download from: https://www150.statcan.gc.ca/n1/tbl/csv/18100298-eng.zip
+2025-08-07 17:10:27,386 - ERROR - Download failed: 404 Client Error: Not Found for url: https://www150.statcan.gc.ca/n1/tbl/csv/18100298-eng.zip
+2025-08-07 17:10:27,389 - WARNING - Raw data is empty after download
+2025-08-07 17:10:54,844 - INFO - Logger initialized successfully
+2025-08-07 17:10:54,844 - INFO - Initialized with Target division: structural steel framing, Building types: ['Residential buildings', 'non-residential buildings']
+2025-08-07 17:10:54,844 - INFO - Attempting to download from: https://www150.statcan.gc.ca/n1/tbl/csv/18100298-eng.zip
+2025-08-07 17:10:54,987 - ERROR - Download failed: 404 Client Error: Not Found for url: https://www150.statcan.gc.ca/n1/tbl/csv/18100298-eng.zip
+2025-08-07 17:10:54,990 - WARNING - Raw data is empty after download
+2025-08-08 00:27:43,675 - INFO - Logger initialized successfully
+2025-08-08 00:27:43,675 - INFO - Initialized with Target division: structural steel framing, Building types: ['Residential buildings', 'non-residential buildings']
+2025-08-08 00:27:43,675 - INFO - Attempting to download from: https://www150.statcan.gc.ca/n1/tbl/csv/18100298-eng.zip
+2025-08-08 00:27:43,757 - ERROR - Download failed: 404 Client Error: Not Found for url: https://www150.statcan.gc.ca/n1/tbl/csv/18100298-eng.zip
+2025-08-08 00:27:43,759 - WARNING - Raw data is empty after download
+2025-08-08 20:29:10,858 - INFO - Logger initialized successfully
+2025-08-08 20:29:10,858 - INFO - Initialized with PID: 18100298, Target division: structural steel framing, Building types: ['Residential buildings', 'non-residential buildings']
+2025-08-08 20:29:10,858 - INFO - Attempting to download from: https://www150.statcan.gc.ca/n1/tbl/csv/1810-eng.zip
+2025-08-08 20:29:10,961 - ERROR - Download failed: 404 Client Error: Not Found for url: https://www150.statcan.gc.ca/n1/tbl/csv/1810-eng.zip
+2025-08-08 20:29:10,964 - WARNING - Raw data is empty after download
+2025-08-08 21:10:49,156 - INFO - Logger initialized successfully
+2025-08-08 21:10:49,156 - INFO - Initialized BCPITracker for PID 18100298
+2025-08-08 21:10:49,156 - INFO - Downloading StatsCan table from https://www150.statcan.gc.ca/n1/tbl/csv/18100298-eng.zip
+2025-08-08 21:10:49,236 - ERROR - Failed to load table: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self-signed certificate in certificate chain (_ssl.c:1000)>
+2025-08-08 21:10:49,237 - WARNING - No data loaded from StatsCan.
+2025-08-08 21:34:43,806 - INFO - Logger initialized successfully
+2025-08-08 21:34:43,882 - INFO - Initialized BCPITracker for PID 1810029801
+2025-08-08 21:34:43,882 - INFO - Downloading StatsCan table from https://www150.statcan.gc.ca/n1/tbl/csv/18100298-eng.zip
+2025-08-08 21:34:43,964 - ERROR - Download failed: 404 Client Error: Not Found for url: https://www150.statcan.gc.ca/n1/tbl/csv/18100298-eng.zip
+2025-08-08 21:34:43,965 - WARNING - No data loaded from StatsCan.
+2025-08-08 21:36:10,587 - INFO - Logger initialized successfully
+2025-08-08 21:36:10,664 - INFO - Initialized BCPITracker for PID 1810028901
+2025-08-08 21:36:10,664 - INFO - Downloading StatsCan table from https://www150.statcan.gc.ca/n1/tbl/csv/18100289-eng.zip
+2025-08-08 21:36:11,492 - INFO - Rows after vector filter: 68
+2025-08-08 21:36:11,498 - INFO - Final DataFrame shape: (0, 16)
+2025-08-08 21:42:59,886 - INFO - Logger initialized successfully
+2025-08-08 21:42:59,886 - INFO - Initialized with PID: 18100289, Target division: structural steel framing, Building types: ['Residential buildings', 'non-residential buildings']
+2025-08-08 21:42:59,886 - INFO - Attempting to download from: https://www150.statcan.gc.ca/n1/tbl/csv/1810-eng.zip
+2025-08-08 21:42:59,973 - ERROR - Download failed: 404 Client Error: Not Found for url: https://www150.statcan.gc.ca/n1/tbl/csv/1810-eng.zip
+2025-08-08 21:42:59,974 - WARNING - Raw data is empty after download
+2025-08-08 21:44:28,221 - INFO - Logger initialized successfully
+2025-08-08 21:44:28,221 - INFO - Initialized with PID: 18100289, Target division: structural steel framing, Building types: ['Residential buildings', 'non-residential buildings']
+2025-08-08 21:44:28,221 - INFO - Attempting to download from: https://www150.statcan.gc.ca/n1/tbl/csv/18100289-eng.zip
+2025-08-08 21:44:28,675 - INFO - Download successful. Content length: 3368539 bytes
+2025-08-08 21:44:28,676 - INFO - Extracting CSV: 18100289.csv
+2025-08-08 21:44:28,980 - INFO - Raw DataFrame shape: (275204, 16)
+2025-08-08 21:44:28,980 - INFO - Sample columns: ['REF_DATE', 'GEO', 'DGUID', 'Type of building', 'Division', 'UOM', 'UOM_ID', 'SCALAR_FACTOR', 'SCALAR_ID', 'VECTOR', 'COORDINATE', 'VALUE', 'STATUS', 'SYMBOL', 'TERMINATED', 'DECIMALS']
+2025-08-08 21:44:28,981 - INFO - Full dataset columns: ['REF_DATE', 'GEO', 'DGUID', 'Type of building', 'Division', 'UOM', 'UOM_ID', 'SCALAR_FACTOR', 'SCALAR_ID', 'VECTOR', 'COORDINATE', 'VALUE', 'STATUS', 'SYMBOL', 'TERMINATED', 'DECIMALS']
+2025-08-08 21:44:29,060 - INFO - Number of rows after filters: 0
+2025-08-08 21:44:29,060 - WARNING - No rows matched the filters
+2025-08-08 22:00:39,706 - INFO - Logger initialized successfully
+2025-08-08 22:00:40,294 - INFO - Initialized BCPITracker for PID 1810028901
+2025-08-08 22:00:40,294 - INFO - Downloading StatsCan table from https://www150.statcan.gc.ca/n1/tbl/csv/18100289-eng.zip
+2025-08-08 22:00:41,328 - INFO - Rows after vector filter: 68
+2025-08-08 22:00:41,334 - INFO - Final DataFrame shape: (0, 16)
+2025-08-08 22:00:41,335 - INFO - None
+2025-08-08 22:09:25,247 - INFO - Logger initialized successfully
+2025-08-08 22:09:25,906 - INFO - Initialized BCPITracker for PID 1810028901
+2025-08-08 22:09:25,906 - INFO - Downloading StatsCan table from https://www150.statcan.gc.ca/n1/tbl/csv/18100289-eng.zip
+2025-08-08 22:09:27,166 - INFO - Rows after vector filter: 68
+2025-08-08 22:09:27,176 - INFO - Final DataFrame shape: (40, 3)
+2025-08-08 22:10:12,945 - INFO - Logger initialized successfully
+2025-08-08 22:10:13,614 - INFO - Initialized BCPITracker for PID 1810028901
+2025-08-08 22:10:13,614 - INFO - Downloading StatsCan table from https://www150.statcan.gc.ca/n1/tbl/csv/18100289-eng.zip
+2025-08-08 22:10:15,612 - INFO - Rows after vector filter: 68
+2025-08-08 22:10:15,620 - INFO - Final DataFrame shape: (44, 3)
+2025-08-08 22:43:36,612 - INFO - Logger initialized successfully
+2025-08-08 22:43:50,868 - INFO - Initialized BCPITracker for PID 1810028901
+2025-08-08 22:43:50,868 - INFO - Initialized BCPITracker for PID 1810028901
+2025-08-08 22:44:11,389 - INFO - Initialized BCPITracker for PID 1810028901
+2025-08-08 22:44:11,389 - INFO - Initialized BCPITracker for PID 1810028901
+2025-08-08 22:44:11,395 - INFO - Downloading StatsCan table from https://www150.statcan.gc.ca/n1/tbl/csv/18100289-eng.zip
+2025-08-08 22:44:12,335 - INFO - Rows after vector filter: 34
+2025-08-08 22:44:12,350 - INFO - Final DataFrame shape: (22, 3)
+2025-08-08 22:44:14,973 - INFO - Initialized BCPITracker for PID 1810028901
+2025-08-08 22:44:14,974 - INFO - Initialized BCPITracker for PID 1810028901
+2025-08-08 22:44:14,975 - INFO - Downloading StatsCan table from https://www150.statcan.gc.ca/n1/tbl/csv/18100289-eng.zip
+2025-08-08 22:44:15,611 - INFO - Rows after vector filter: 34
+2025-08-08 22:44:15,613 - INFO - Final DataFrame shape: (22, 3)
+2025-08-08 22:44:20,728 - INFO - Initialized BCPITracker for PID 1810028901
+2025-08-08 22:44:20,728 - INFO - Initialized BCPITracker for PID 1810028901
+2025-08-08 22:45:06,945 - INFO - Initialized BCPITracker for PID 1810028901
+2025-08-08 22:45:06,946 - INFO - Initialized BCPITracker for PID 1810028901
+2025-08-08 22:46:51,849 - INFO - Logger initialized successfully
+2025-08-08 22:46:51,855 - INFO - Initialized BCPITracker for PID 1810028901
+2025-08-08 22:46:51,855 - INFO - Initialized BCPITracker for PID 1810028901
+2025-08-08 22:46:56,342 - INFO - Initialized BCPITracker for PID 1810028901
+2025-08-08 22:46:56,342 - INFO - Initialized BCPITracker for PID 1810028901
+2025-08-08 22:46:56,343 - INFO - Downloading StatsCan table from https://www150.statcan.gc.ca/n1/tbl/csv/18100289-eng.zip
+2025-08-08 22:46:57,129 - INFO - Rows after vector filter: 34
+2025-08-08 22:46:57,138 - INFO - Final DataFrame shape: (22, 3)
+2025-08-08 22:46:58,027 - INFO - Initialized BCPITracker for PID 1810028901
+2025-08-08 22:46:58,028 - INFO - Initialized BCPITracker for PID 1810028901
+2025-08-08 22:46:58,029 - INFO - Downloading StatsCan table from https://www150.statcan.gc.ca/n1/tbl/csv/18100289-eng.zip
+2025-08-08 22:46:58,761 - INFO - Rows after vector filter: 34
+2025-08-08 22:46:58,762 - INFO - Final DataFrame shape: (22, 3)
+2025-08-08 22:47:02,694 - INFO - Initialized BCPITracker for PID 1810028901
+2025-08-08 22:47:02,694 - INFO - Initialized BCPITracker for PID 1810028901
+2025-08-08 22:47:05,899 - INFO - Initialized BCPITracker for PID 1810028901
+2025-08-08 22:47:05,899 - INFO - Initialized BCPITracker for PID 1810028901
+2025-08-08 22:47:08,327 - INFO - Initialized BCPITracker for PID 1810028901
+2025-08-08 22:47:08,327 - INFO - Initialized BCPITracker for PID 1810028901
+2025-08-08 22:47:11,749 - INFO - Initialized BCPITracker for PID 1810028901
+2025-08-08 22:47:11,749 - INFO - Initialized BCPITracker for PID 1810028901
+2025-08-08 22:50:20,003 - INFO - Initialized BCPITracker for PID 1810028901
+2025-08-08 22:50:20,003 - INFO - Initialized BCPITracker for PID 1810028901
+2025-08-08 22:51:19,599 - INFO - Logger initialized successfully
+2025-08-08 22:51:19,605 - INFO - Initialized BCPITracker for PID 1810028901
+2025-08-08 22:51:19,605 - INFO - Initialized BCPITracker for PID 1810028901
+2025-08-08 22:53:06,977 - INFO - Logger initialized successfully
+2025-08-08 22:53:11,003 - INFO - Initialized BCPITracker for PID 1810028901
+2025-08-08 22:53:11,003 - INFO - Initialized BCPITracker for PID 1810028901
+2025-08-10 03:55:24,117 - INFO - Logger initialized successfully
+2025-08-10 03:55:24,340 - INFO - Initialized BCPITracker for PID 1810028901
+2025-08-10 03:55:24,340 - INFO - Initialized BCPITracker for PID 1810028901
+2025-08-10 03:55:26,743 - INFO - Initialized BCPITracker for PID 1810028901
+2025-08-10 03:55:26,743 - INFO - Initialized BCPITracker for PID 1810028901
+2025-08-10 03:56:10,578 - INFO - Logger initialized successfully
+2025-08-10 03:56:10,581 - INFO - Initialized BCPITracker for PID 1810028901
+2025-08-10 03:56:10,581 - INFO - Initialized BCPITracker for PID 1810028901
+2025-08-10 03:56:12,159 - INFO - Initialized BCPITracker for PID 1810028901
+2025-08-10 03:56:12,160 - INFO - Initialized BCPITracker for PID 1810028901
+2025-08-10 03:56:21,903 - INFO - Initialized BCPITracker for PID 1810028901
+2025-08-10 03:56:21,903 - INFO - Initialized BCPITracker for PID 1810028901
+2025-08-10 03:57:15,854 - INFO - Initialized BCPITracker for PID 1810028901
+2025-08-10 03:57:15,854 - INFO - Initialized BCPITracker for PID 1810028901
+2025-08-10 03:57:17,338 - INFO - Initialized BCPITracker for PID 1810028901
+2025-08-10 03:57:17,338 - INFO - Initialized BCPITracker for PID 1810028901
+2025-08-10 03:57:24,127 - INFO - Initialized BCPITracker for PID 1810028901
+2025-08-10 03:57:24,128 - INFO - Initialized BCPITracker for PID 1810028901
+2025-08-10 04:04:44,401 - INFO - Logger initialized successfully
+2025-08-10 04:05:13,148 - INFO - Initialized BCPITracker for PID 1810028901
+2025-08-10 04:05:13,148 - INFO - Initialized BCPITracker for PID 1810028901
+2025-08-10 04:05:18,078 - INFO - Initialized BCPITracker for PID 1810028901
+2025-08-10 04:05:18,078 - INFO - Initialized BCPITracker for PID 1810028901
+2025-08-10 04:05:18,081 - INFO - Downloading StatsCan table from https://www150.statcan.gc.ca/n1/tbl/csv/18100289-eng.zip
+2025-08-10 04:05:19,368 - INFO - Rows after vector filter: 34
+2025-08-10 04:05:19,381 - INFO - Final DataFrame shape: (22, 3)
+2025-08-10 04:05:20,749 - INFO - Initialized BCPITracker for PID 1810028901
+2025-08-10 04:05:20,749 - INFO - Initialized BCPITracker for PID 1810028901
+2025-08-10 04:05:20,751 - INFO - Downloading StatsCan table from https://www150.statcan.gc.ca/n1/tbl/csv/18100289-eng.zip
+2025-08-10 04:05:23,259 - INFO - Rows after vector filter: 34
+2025-08-10 04:05:23,260 - INFO - Final DataFrame shape: (22, 3)
+2025-08-10 04:05:29,062 - INFO - Initialized BCPITracker for PID 1810028901
+2025-08-10 04:05:29,062 - INFO - Initialized BCPITracker for PID 1810028901
+2025-08-10 04:06:18,695 - INFO - Initialized BCPITracker for PID 1810028901
+2025-08-10 04:06:18,696 - INFO - Initialized BCPITracker for PID 1810028901
